@@ -1,0 +1,35 @@
+package com.epicode;
+
+public class MainProject {
+
+	public static void main(String[] args) {
+		// Istruzioni del mio programma
+		/*
+		 * commenti 
+		 * multilinea
+		 * 
+		 */
+		
+		/**
+		 * @author Daniele Pasqualetti
+		 * commenti JAVADOC
+		 */
+		
+		boolean b = true; //true/false;
+		char c = 'c'; //apici singoli, un carattere
+		int i = 25; //valore numerico non decimale
+		double d = 25.5; //valore numerico decimale
+		String s = "ciao"; //apici doppi, una stringa
+		
+		
+		int val1 = 10; //dichiarare ed inizializzare una variabile
+		int val2; //dichiarato una variabile
+		val2 = 10; //inizializzato una variabile
+		final int VAL3 = 15; //definisco ed inizializzo una costante
+		
+		int[] arrNum =  new int[5]; //creo un array di valori numerici di dimensione fissa (5) con indice da 0 a n-1
+		String [] arrString = new String[3]; //creo un array di valori numerici di dimensione fissa (5) con indice da 0 a n-1
+		
+	}
+
+}
