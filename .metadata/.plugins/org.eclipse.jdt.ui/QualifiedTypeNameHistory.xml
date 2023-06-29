@@ -3,4 +3,7 @@
     <fullyQualifiedTypeName name="javax.xml.crypto.Data"/>
     <fullyQualifiedTypeName name="java.util.Scanner"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="classi.Dipartimento"/>
+    <fullyQualifiedTypeName name="classi.Dipendente"/>
+    <fullyQualifiedTypeName name="classi.Livello"/>
 </qualifiedTypeNameHistroy>
