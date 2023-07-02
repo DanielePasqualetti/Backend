@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="javax.xml.crypto.Data"/>
-    <fullyQualifiedTypeName name="java.util.Scanner"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="classi.Dipartimento"/>
     <fullyQualifiedTypeName name="classi.Dipendente"/>
     <fullyQualifiedTypeName name="classi.Livello"/>
+    <fullyQualifiedTypeName name="interfacce.ILuminosita"/>
+    <fullyQualifiedTypeName name="interfacce.IRiproducibile"/>
+    <fullyQualifiedTypeName name="classi.RegistrazioneAudio"/>
+    <fullyQualifiedTypeName name="classi.Video"/>
+    <fullyQualifiedTypeName name="classi.Immagine"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="classi.ElementoMultimediale"/>
 </qualifiedTypeNameHistroy>
