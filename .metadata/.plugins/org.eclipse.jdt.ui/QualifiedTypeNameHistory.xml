@@ -10,6 +10,6 @@
     <fullyQualifiedTypeName name="classi.RegistrazioneAudio"/>
     <fullyQualifiedTypeName name="classi.Video"/>
     <fullyQualifiedTypeName name="classi.Immagine"/>
-    <fullyQualifiedTypeName name="java.util.Scanner"/>
     <fullyQualifiedTypeName name="classi.ElementoMultimediale"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
 </qualifiedTypeNameHistroy>
