@@ -33,7 +33,25 @@ public class Libro extends Lettura {
 				+ getTitolo() + ", Anno di Pubblicazione=" + getAnnoPubblicazione() + ", Numero di Pagine="
 				+ getNumeroPagine() +"]";
 	}
-
 	
+	public static String stampaFile(Libro libro) {
+		return Libro.class.getSimpleName()
+				+ "|" + libro.getIsbn()
+				+ "|" + libro.getTitolo()
+				+ "|" + libro.getAnnoPubblicazione()
+				+ "|" + libro.getNumeroPagine()
+				+ "|" + libro.getAutore()
+				+ "|" + libro.getGenere();
+	}
 	
+	public static Libro caricaFile(String string) {
+		String[] valore = string.split("\\|");		
+		return new Libro(
+				valore[1],
+				valore[2],
+				Integer.valueOf(valore[3]),
+				Integer.valueOf(valore[4]),
+				valore[5],
+				valore[6]);
+	}
 }

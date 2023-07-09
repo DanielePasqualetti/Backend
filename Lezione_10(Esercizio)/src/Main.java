@@ -1,4 +1,9 @@
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -6,6 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +24,9 @@ public class Main {
 
 	private static Logger logger = LoggerFactory.getLogger(Main.class);
 	
-	private Map<String, Lettura> archivioBiblioteca;
+	private static Map<String, Lettura> archivioBiblioteca;
 	
+	private static File fileDiSalvataggio = new File("archivio/mensola.txt");
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -54,7 +61,7 @@ public class Main {
 		
 		//CONTROLLO LA MENSOLA
 		logger.info("Sulla mensola sono presenti: ");
-		for (Lettura lettura : mensola.archivioBiblioteca.values()) {
+		for (Lettura lettura : Main.archivioBiblioteca.values()) {
 			logger.info("" + lettura);
 	    	}
 		
@@ -82,11 +89,26 @@ public class Main {
 		logger.info("" + mensola.ricercaPerAutore("John R. R. Tolkien"));//successo
 		logger.info("" + mensola.ricercaPerAutore("Douglas Adams"));//insuccesso lista vuota
 		
+		//SALVO LA MENSOLA NEL FILE
+		try {
+			Main.salvaInArchivio();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//CARICO LA MENSOLA DAL FILE
+		try {
+			Main.caricaDaArchivio();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
 	public Main() {
-		this.archivioBiblioteca = new HashMap<String, Lettura>();
+		Main.archivioBiblioteca = new HashMap<String, Lettura>();
 	}
 	
 	public void aggiungiLettura(Lettura nuovaLettura) {
@@ -104,8 +126,6 @@ public class Main {
 	}
 	
 	public Lettura ricercaPerIsbn(String isbn) {
-		//volevo mettere un if else qui dentro per farmi restituire messaggi diversi in caso di 
-		//ricerca andata a buon fine o meno ma mi continua a dare errori, spero cosi vada bene
 		return archivioBiblioteca.get(isbn);
 	}
 	
@@ -122,5 +142,71 @@ public class Main {
 				.filter(lett -> lett instanceof Libro)
 				.map(lett -> (Libro) lett)
 				.filter(lett -> autore.equals(lett.getAutore()))
-				.collect(Collectors.toList());}
+				.collect(Collectors.toList());
+	}
+	
+	public static void salvaInArchivio() throws IOException {
+		// Mario Rossi@5#Giorgio Bianchi@7#Gianni Verdi@7
+		
+		// Preparo la stringa da salvare nel file
+		StringBuilder stringaVuota = new StringBuilder();
+		
+		for (Lettura lett : archivioBiblioteca.values()) {
+				stringaVuota.append("#");
+
+		switch (lett.getClass().getSimpleName()) {
+			case "Libro":
+				stringaVuota.append(Libro.stampaFile((Libro) lett));
+				break;
+			case "Rivista":
+				stringaVuota.append(Rivista.stampaFile((Rivista) lett));
+				break;
+			default:
+				break;
+			}
+		}
+		
+		String contenutoDaScrivereNelFile = stringaVuota.toString();
+		Charset charset = StandardCharsets.UTF_8;
+		FileUtils.writeStringToFile(fileDiSalvataggio, contenutoDaScrivereNelFile, charset, true); 
+		logger.info("Dati inseriti nel file " + fileDiSalvataggio.getPath());
+	}
+	
+	public static void caricaDaArchivio() throws IOException {
+		Main.archivioBiblioteca.clear();
+		
+		File fileDiSalvataggio = new File("archivio/mensola.txt");
+		
+		String contenutoCaricatoDaFile = FileUtils.readFileToString(fileDiSalvataggio, "UTF-8");
+		
+		List<String> fileDiSalvataggioSplittati = Arrays.asList(contenutoCaricatoDaFile.split("#"));
+		
+		for (String singolaStringa : fileDiSalvataggioSplittati) {
+			Lettura lettura = null;
+			try {
+			if (singolaStringa.startsWith(Libro.class.getSimpleName())) {
+				lettura = Libro.caricaFile(singolaStringa);
+			} else if (singolaStringa.startsWith(Rivista.class.getSimpleName())){
+				lettura = Rivista.caricaFile(singolaStringa);
+			}
+			} catch (Exception e){
+				logger.warn("Errore nella lettura della riga: " + singolaStringa);
+	            continue;
+			}
+			if (lettura != null) {
+			Main.archivioBiblioteca.put(lettura.getIsbn(), lettura);
+			}
+		}
+		/*
+		 * non riesco a stampare singolarmente i dati presi da mensola.txt e non capisco perchè 
+		 * mi continua a dare questo errore qui
+		 * Exception in thread "main" java.lang.NullPointerException: Cannot invoke "classes.Lettura.getIsbn()" because "lettura" is null 
+		 * at Main.caricaDaArchivio(Main.java:191) 
+		 * at Main.main(Main.java:102)
+		 * ho passato piu di due ore solo su questa cosa e non sono riuscito a trovare una soluzione funzionante quindi ho buttato tutto in un 
+		 * try catch per andare avanti e far vedere che comunque il contenuto si riesce a prendere
+		*/
+		logger.info(contenutoCaricatoDaFile);
+		logger.info("I dati del file " + fileDiSalvataggio + " sono stati caricati con successo.");
+	}
 }

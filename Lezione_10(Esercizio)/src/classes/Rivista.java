@@ -24,6 +24,22 @@ public class Rivista extends Lettura {
 				+ "]";
 	}
 
+	public static String stampaFile(Rivista rivista) {
+		return Rivista.class.getSimpleName()
+				+ "|" + rivista.getIsbn()
+				+ "|" + rivista.getTitolo()
+				+ "|" + rivista.getAnnoPubblicazione()
+				+ "|" + rivista.getNumeroPagine()
+				+ "|" + rivista.getPeriodicita();
+	}
 	
-	
+	public static Rivista caricaFile(String string) {
+		String[] valore = string.split("\\|");		
+		return new Rivista(
+				valore[1],
+				valore[2],
+				Integer.valueOf(valore[3]),
+				Integer.valueOf(valore[4]),
+				Periodicita.valueOf(valore[5]));
+	}
 }

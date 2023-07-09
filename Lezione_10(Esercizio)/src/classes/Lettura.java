@@ -2,10 +2,10 @@ package classes;
 
 public abstract class Lettura {
 	
-	private String isbn;
-	private String titolo;
-	private int annoPubblicazione;
-	private int numeroPagine;
+	protected String isbn;
+	protected String titolo;
+	protected int annoPubblicazione;
+	protected int numeroPagine;
 	
 	public Lettura(String isbn, String titolo, int annoPubblicazione, int numeroPagine) {
 		super();
@@ -46,6 +46,5 @@ public abstract class Lettura {
 	public void setNumeroPagine(int numeroPagine) {
 		this.numeroPagine = numeroPagine;
 	}
-	
 	
 }
