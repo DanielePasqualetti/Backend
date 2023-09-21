@@ -66,37 +66,43 @@ public class AuthServiceImpl implements AuthService {
 
         // add check for username exists in database
         if(userRepository.existsByUsername(registerDto.getUsername())){
-            throw new MyAPIException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
+            throw new MyAPIException(HttpStatus.BAD_REQUEST, "Username già esistente!.");
         }
 
         // add check for email exists in database
         if(userRepository.existsByEmail(registerDto.getEmail())){
-            throw new MyAPIException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
+            throw new MyAPIException(HttpStatus.BAD_REQUEST, "Email già esistente!.");
         }
 
         User user = new User();
         user.setName(registerDto.getName());
+        user.setLastname(registerDto.getLastname());
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        
-        if(registerDto.getRoles() != null) {
-	        registerDto.getRoles().forEach(role -> {
-	        	Role userRole = roleRepository.findByRoleName(getRole(role)).get();
-	        	roles.add(userRole);
-	        });
-        } else {
-        	Role userRole = roleRepository.findByRoleName(ERole.ROLE_USER).get();
-        	roles.add(userRole);
-        }
-        
+        Role userRole = roleRepository.findByRoleName(ERole.ROLE_USER).get();
+        roles.add(userRole);
         user.setRoles(roles);
         System.out.println(user);
         userRepository.save(user);
+        
+//        if(registerDto.getRoles() != null) {
+//	        registerDto.getRoles().forEach(role -> {
+//	        	Role userRole = roleRepository.findByRoleName(getRole(role)).get();
+//	        	roles.add(userRole);
+//	        });
+//        } else {
+//        	Role userRole = roleRepository.findByRoleName(ERole.ROLE_USER).get();
+//        	roles.add(userRole);
+//        }
+//        
+//        user.setRoles(roles);
+//        System.out.println(user);
+//        userRepository.save(user);
 
-        return "User registered successfully!.";
+        return "User registrato con successo!.";
     }
     
     public ERole getRole(String role) {

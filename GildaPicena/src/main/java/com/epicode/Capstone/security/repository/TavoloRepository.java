@@ -1,6 +1,7 @@
 package com.epicode.Capstone.security.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,9 +12,7 @@ import com.epicode.Capstone.security.entity.Tavolo;
 
 public interface TavoloRepository extends JpaRepository<Tavolo, Long> {
 	
-	Tavolo getById(Long id);
-	
-	Tavolo getByMaster(Master m);
+	Optional<Tavolo> getByMaster(Master m);
 	
 	List<Tavolo> findByStato(EStatoTavolo stato);
 	
